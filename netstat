@@ -1,0 +1,2 @@
+cd /home/zsw/netstat
+julia netstat.jl >> result
