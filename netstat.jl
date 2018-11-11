@@ -119,12 +119,47 @@ function test_speed()
     end
 end
 
+function test_arp()
+    starttime = time()
+    p = run(pipeline(`sudo arp-scan -l`, stdout=Pipe()), wait=false)
+
+    @async try
+        wait(p)
+        if p.exitcode != 0 || p.termsignal != 0
+            error("arp-scan exit with code $(p.exitcode)")
+        end
+
+        close(p.out.in)
+        result = read(p.out, String)
+        msg(
+            status = "arp-scan succeed",
+            hosts = count(x->x=='\t', result) ÷ 2,
+            duplicates = count(x->true, eachmatch(r"D[uU][pP]", result)),
+            elapsed = time() - starttime,
+            result = result
+        )
+    catch e
+        msg(
+            status = "arp-scan failed",
+            elapsed = time() - starttime,
+            error = string(e)
+        )
+    end
+
+    @async begin
+        sleep(5)
+        kill(p)
+    end
+end
+
 while true
     t = floor(Int, time())
     sleep(t + 1.001 - time())
 
-    t % 2 == 0 && test_dns()
-    t % 2 == 1 && test_ping()
+    t % 2 == 0    && test_dns()
+    t % 2 == 1    && test_ping()
+    t % 30 == 0   && test_arp()
     t % 1800 == 0 && test_speed()
+
     t % 15 == 0 && flush(stdout)
 end

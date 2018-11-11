@@ -1,2 +1,3 @@
 cd /home/zsw/netstat
-julia netstat.jl >> result
+julia netstat.jl >> result &
+julia monitor.jl

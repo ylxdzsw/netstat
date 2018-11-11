@@ -1,0 +1,67 @@
+<meta charset="utf8" />
+<script src="http://echarts.baidu.com/dist/echarts.min.js"></script>
+<script src="http://echarts.baidu.com/asset/theme/dark.js"></script>
+<style>
+    html {
+        min-height: 100%;
+        width: 100%;
+        background-color: #222;
+        color: #fff;
+    }
+
+    body {
+        width: 680px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .tile {
+        width: 135px;
+        height: 120px;
+        float: left;
+        padding-left: 2rem;
+    }
+
+    .tile h4 {
+        font-size: 1rem;
+        font-weight: normal;
+        margin: 8px 0;
+    }
+</style>
+
+<title> Netstat </title>
+
+<h2 style="text-align: center; padding-right: 3.5rem"> Netstat snapshot $time </h2>
+
+<div class="tile">
+    <h4> Connectivity </h4>
+    <div style="font-size: 2rem">
+        $conn %
+    </div>
+</div>
+
+<div class="tile">
+    <h4 style="margin-bottom: 0.4rem"> Speed </h4>
+    <div style="font-size: 1.2rem"> &uarr;$(speed[1]) <span style="font-size: 1rem">Mbps</span> </div>
+    <div style="font-size: 1.2rem"> &darr;$(speed[2]) <span style="font-size: 1rem">Mbps</span> </div>
+</div>
+
+<div class="tile">
+    <h4> DNS latency </h4>
+    <div style="font-size: 2rem">
+        $dns <span style="font-size: 1rem">ms</span>
+    </div>
+</div>
+
+<div class="tile">
+    <h4> Users </h4>
+    <div style="font-size: 2rem">
+        $(hosts[1]) <span style="font-size: 1rem">($(hosts[2]) dups)</span>
+    </div>
+</div>
+
+$$ for plot in plots $$
+    $$ id = randstring() $$
+    <figure id="$id" style="width:650px; height:360px; float: left; margin: 15px;"></figure>
+    <script> echarts.init(document.getElementById('$id'), 'dark').setOption($plot) </script>
+$$ end $$
