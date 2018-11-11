@@ -43,7 +43,6 @@ function test_dns(target=rand(list), dns=get_default_dns_linux())
     @async try
         send(socket, IPv4(dns), 53, pack_dns_query(target))
         result = recv(socket)
-        push!(success, true)
         msg(
             status = "dns succeed",
             website = target,
@@ -51,7 +50,6 @@ function test_dns(target=rand(list), dns=get_default_dns_linux())
             result = base64encode(result)
         )
     catch e
-        push!(success, false)
         msg(
             status = "dns failed",
             website = target,
@@ -71,14 +69,12 @@ function test_ping(target=rand(list))
 
     @async try
         connect(target, 443) |> close
-        push!(success, true)
         msg(
             status = "ping succeed",
             website = target,
             elapsed = time() - starttime
         )
     catch e
-        push!(success, false)
         msg(
             status = "ping failed",
             website = target,
@@ -115,8 +111,6 @@ function test_speed()
             elapsed = time() - starttime,
             error = string(e)
         )
-    finally
-        flush(stdout)
     end
 
     @async begin
@@ -125,34 +119,12 @@ function test_speed()
     end
 end
 
-# frequency adjusting:
-# error rate = 0: normal speed
-# error rate > 0: 5x speed for dns and ping
-# error rate > 5%: disable speed-test
-const success = fill(true, 1000)
-
 while true
     t = floor(Int, time())
     sleep(t + 1.001 - time())
 
-    while length(success) > 1000
-        popfirst!(success)
-    end
-    r = count(!, success)
-
-    if (0 < r < 50) || t % 10 == 0 || (r == 0 && t % 2 == 0)
-        test_dns()
-    end
-
-    if (0 < r < 50) || t % 10 == 5 || (r == 0 && t % 2 == 1)
-        test_ping()
-    end
-
-    if r < 50 && t % 1800 == 0
-        test_speed()
-    end
-
-    if t % 15 == 0
-        flush(stdout)
-    end
+    t % 2 == 0 && test_dns()
+    t % 2 == 1 && test_ping()
+    t % 1800 == 0 && test_speed()
+    t % 15 == 0 && flush(stdout)
 end

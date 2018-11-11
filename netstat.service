@@ -1,0 +1,12 @@
+[Unit]
+Description=netstat
+After=network.target
+
+[Service]
+Type=simple
+User=zsw
+Nice=-15
+ExecStart=/bin/sh /home/zsw/netstat/netstat
+
+[Install]
+WantedBy=multi-user.target
