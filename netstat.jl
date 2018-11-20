@@ -46,6 +46,7 @@ function test_dns(target=rand(list), dns=get_default_dns_linux())
         msg(
             status = "dns succeed",
             website = target,
+            dns = dns,
             elapsed = time() - starttime,
             result = base64encode(result)
         )
@@ -53,6 +54,7 @@ function test_dns(target=rand(list), dns=get_default_dns_linux())
         msg(
             status = "dns failed",
             website = target,
+            dns = dns,
             elapsed = time() - starttime,
             error = string(e)
         )

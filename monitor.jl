@@ -37,7 +37,8 @@ function get_info()
             title: { text: 'Ping' },
             xAxis: { type: 'category' },
             yAxis: { type: 'value', name: 'Latency (ms)', max: 1000 },
-            legend: {},
+            legend: { width: 400 },
+            tooltip: {},
             dataZoom: [{
                 type: 'slider',
                 start: 80,
@@ -56,6 +57,7 @@ function get_info()
             xAxis: { type: 'category' },
             yAxis: { type: 'value', name: 'Speed (Mbps)' },
             legend: {},
+            tooltip: {},
             dataZoom: [{
                 type: 'slider',
                 start: 60,
@@ -84,8 +86,9 @@ function get_info()
             backgroundColor: 'transparent',
             title: { text: 'Users' },
             xAxis: { type: 'category' },
-            yAxis: { type: 'value', name: 'Speed (Mbps)' },
+            yAxis: { type: 'value' },
             legend: {},
+            tooltip: {},
             dataZoom: [{
                 type: 'slider',
                 start: 60,

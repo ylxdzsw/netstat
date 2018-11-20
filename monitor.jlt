@@ -31,12 +31,12 @@
 
 <title> Netstat </title>
 
-<h2 style="text-align: center; padding-right: 3.5rem"> Netstat snapshot $time </h2>
+<h2 style="text-align: center; padding-right: 3rem"> Netstat snapshot $time </h2>
 
 <div class="tile">
     <h4> Connectivity </h4>
     <div style="font-size: 2rem">
-        $conn %
+        $conn <span style="font-size: 1.1rem">%</span>
     </div>
 </div>
 
@@ -49,7 +49,7 @@
 <div class="tile">
     <h4> DNS latency </h4>
     <div style="font-size: 2rem">
-        $dns <span style="font-size: 1rem">ms</span>
+        $dns <span style="font-size: 1.1rem">ms</span>
     </div>
 </div>
 
