@@ -36,13 +36,12 @@ function get_info()
             backgroundColor: 'transparent',
             title: { text: 'Ping' },
             xAxis: { type: 'category' },
-            yAxis: { type: 'value', name: 'Latency (ms)', max: 1000 },
+            yAxis: { type: 'value', name: 'Latency (ms)', max: 1500 },
             legend: { width: 400 },
             tooltip: {},
             dataZoom: [{
                 type: 'slider',
-                start: 80,
-                end: 99.5,
+                start: 90,
                 height: 20,
                 bottom: 12
             }],
