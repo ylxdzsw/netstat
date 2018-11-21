@@ -116,7 +116,7 @@ function test_speed()
     end
 
     @async begin
-        sleep(120)
+        sleep(180)
         kill(p)
     end
 end
