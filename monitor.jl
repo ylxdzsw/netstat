@@ -38,7 +38,7 @@ function get_info()
             xAxis: { type: 'category' },
             yAxis: { type: 'value', name: 'Latency (ms)', max: 1500 },
             legend: { width: 400 },
-            tooltip: {},
+            tooltip: { trigger: 'axis' },
             dataZoom: [{
                 type: 'slider',
                 start: 90,
@@ -56,7 +56,7 @@ function get_info()
             xAxis: { type: 'category' },
             yAxis: { type: 'value', name: 'Speed (Mbps)' },
             legend: {},
-            tooltip: {},
+            tooltip: { trigger: 'axis' },
             dataZoom: [{
                 type: 'slider',
                 start: 60,
@@ -87,7 +87,7 @@ function get_info()
             xAxis: { type: 'category' },
             yAxis: { type: 'value' },
             legend: {},
-            tooltip: {},
+            tooltip: { trigger: 'axis' },
             dataZoom: [{
                 type: 'slider',
                 start: 60,
@@ -120,6 +120,6 @@ app.get("/", template) do req, res, route
     res.render("monitor.jlt", time=Dates.format(now(), "yyyy-mm-dd HH:MM:SS"), conn=conn, speed=speed, dns=dns, hosts=hosts, plots=plots, randstring=randstring)
 end
 
-@main function main(port::Int=3901)
+@main function main(port::Int=8080)
     app.listen("0.0.0.0", port)
 end

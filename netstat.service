@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 Type=simple
-User=zsw
+User=ylxdzsw
 Nice=-15
-ExecStart=/bin/sh /home/zsw/netstat/netstat
+ExecStart=/bin/sh /home/ylxdzsw/fuck-projects/netstat/netstat
 
 [Install]
 WantedBy=multi-user.target
