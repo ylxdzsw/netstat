@@ -8,7 +8,7 @@ using Statistics
 using JsonBuilder
 
 function get_info()
-    data = map(JSON2.read, readlines("result")[max(end-100000, 1):end])
+    data = map(JSON2.read, readlines("result")[max(end-150000, 1):end])
     conn = floor(Int, 100mean(endswith(x.status, "succeed") for x in data[max(end-300, 1):end] if startswith(x.status, "ping")))
     speed = let x = filter(x->startswith(x.status, "speedtest"), data)[end]
         endswith(x.status, "succeed") ? round.((x.download, x.upload), sigdigits=4) : ("NaN", "NaN")
@@ -23,7 +23,7 @@ function get_info()
     plot1 = let pings = filter(x->x.status == "ping succeed", data)
         series = []
         for (site, list) in groupby(x->x.website, push!, ()->[], pings)
-            points = [(time, 1000mean(ps)) for (time, ps) in groupby(x->x.timestamp[1:11], (x, y) -> push!(x, y.elapsed), ()->f64[], list)]
+            points = [(time, 333mean(ps)) for (time, ps) in groupby(x->x.timestamp[1:11], (x, y) -> push!(x, y.elapsed), ()->f64[], list)]
             push!(series, @json """{
                 name: $site,
                 type: 'line',
@@ -36,7 +36,7 @@ function get_info()
             backgroundColor: 'transparent',
             title: { text: 'Ping' },
             xAxis: { type: 'category' },
-            yAxis: { type: 'value', name: 'Latency (ms)', max: 1500 },
+            yAxis: { type: 'value', name: 'Latency (ms)', max: 1000 },
             legend: { width: 400 },
             tooltip: { trigger: 'axis' },
             dataZoom: [{
