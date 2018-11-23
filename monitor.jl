@@ -23,7 +23,7 @@ function get_info()
     plot1 = let pings = filter(x->x.status == "ping succeed", data)
         series = []
         for (site, list) in groupby(x->x.website, push!, ()->[], pings)
-            points = [(time, 333mean(ps)) for (time, ps) in groupby(x->x.timestamp[1:11], (x, y) -> push!(x, y.elapsed), ()->f64[], list)]
+            points = [(time, 333minimum(ps)) for (time, ps) in groupby(x->x.timestamp[1:11], (x, y) -> push!(x, y.elapsed), ()->f64[], list)]
             push!(series, @json """{
                 name: $site,
                 type: 'line',
@@ -36,7 +36,7 @@ function get_info()
             backgroundColor: 'transparent',
             title: { text: 'Ping' },
             xAxis: { type: 'category' },
-            yAxis: { type: 'value', name: 'Latency (ms)', max: 1000 },
+            yAxis: { type: 'value', name: 'Latency (ms)', max: 400 },
             legend: { width: 400 },
             tooltip: { trigger: 'axis' },
             dataZoom: [{
@@ -78,8 +78,8 @@ function get_info()
     end
 
     plot3 = let hosts = filter(x->x.status == "arp-scan succeed", data)
-        dups = [(time, mean(n)) for (time, n) in groupby(x->x.timestamp[1:11], (x, y) -> push!(x, y.duplicates), ()->i64[], hosts)]
-        hosts = [(time, mean(n)) for (time, n) in groupby(x->x.timestamp[1:11], (x, y) -> push!(x, y.hosts), ()->i64[], hosts)]
+        dups = [(time, median(n)) for (time, n) in groupby(x->x.timestamp[1:11], (x, y) -> push!(x, y.duplicates), ()->i64[], hosts)]
+        hosts = [(time, median(n)) for (time, n) in groupby(x->x.timestamp[1:11], (x, y) -> push!(x, y.hosts), ()->i64[], hosts)]
 
         @json """{
             backgroundColor: 'transparent',
