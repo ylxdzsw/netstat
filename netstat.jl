@@ -36,7 +36,7 @@ function get_default_dns_linux()
     first(cadr(split(line)) for line in eachline("/etc/resolv.conf") if startswith(line, "nameserver"))
 end
 
-function test_dns(target=rand(list), dns=get_default_dns_linux())
+function test_dns(target=rand(list), dns=try get_default_dns_linux() catch; return msg(status="dns failed", error="cannot get DNS") end)
     socket = UDPSocket()
     starttime = time()
 
